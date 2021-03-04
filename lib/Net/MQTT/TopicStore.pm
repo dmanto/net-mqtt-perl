@@ -42,6 +42,7 @@ sub values {
 sub _topic_to_regexp {
   my $topic = shift;
   my $c;
+  $topic =~ s!\$share\/[^/]+\/!!;
   $topic = quotemeta $topic;
   $c += ($topic =~ s!\\/\\\+!\\/[^/]*!g);
   $c += ($topic =~ s!\\/\\#$!(?:\$|/.*)!);

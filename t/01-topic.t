@@ -6,7 +6,7 @@ use warnings;
 use strict;
 $|=1;
 
-use Test::More tests => 31;
+use Test::More tests => 34;
 BEGIN { use_ok('Net::MQTT::TopicStore'); }
 
 my $topic_store;
@@ -73,6 +73,10 @@ check_matches($topic_store, 'test', '', '... doesn\'t match test');
 ok($topic_store = Net::MQTT::TopicStore->new('#'), 'topic #');
 check_matches($topic_store, '/test', '#', '... matches /test');
 check_matches($topic_store, 'test', '#', '... matches test');
+
+ok($topic_store = Net::MQTT::TopicStore->new('$share/my_group/test/+'), 'topic $share/<group id>/test/+');
+check_matches($topic_store, 'test/alpha', '$share/my_group/test/+', '... matches $share/<group id>/test/+');
+check_matches($topic_store, '/test', '', '... doesn\'t match /test');
 
 sub check_matches {
   my ($store, $topic, $expect, $desc) = @_;
